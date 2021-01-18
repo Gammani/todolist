@@ -34,11 +34,6 @@ function EditableSpan(props: EditableSpanPropsType) {
                 autoFocus={true}
                 onChange={onChangeTitle}
             />
-            // ? <input value={title}
-            //          onBlur={deActivatedEditMode}
-            //          autoFocus={true}
-            //          onChange={onChangeTitle}
-            // />
             : <span onClick={activatedEditMode}>{props.value}</span>
     );
 }
