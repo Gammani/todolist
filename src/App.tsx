@@ -20,30 +20,30 @@ export type TodolistType = {
     filter: FilterValuesType
 }
 
-type TaskStateType = {
+export type TasksStateType = {
     [key: string]: Array<TaskType>
 }
 
 
 function App() {
 
-    let todolistID1 = v1();
-    let todolistID2 = v1();
+    let todolistId1 = v1();
+    let todolistId2 = v1();
 
     let [todoLists, setTodoLists] = useState<Array<TodolistType>>([
-        {id: todolistID1, title: "Wat to learn", filter: "all"},
-        {id: todolistID2, title: "Wat to buy", filter: "all"}
+        {id: todolistId1, title: "Wat to learn", filter: "all"},
+        {id: todolistId2, title: "Wat to buy", filter: "all"}
     ])
 
-    let [tasks, setTasks] = useState<TaskStateType>({
-        [todolistID1]: [
+    let [tasks, setTasks] = useState<TasksStateType>({
+        [todolistId1]: [
             {id: v1(), title: "HTML&CSS", isDone: true},
             {id: v1(), title: "JS", isDone: true},
             {id: v1(), title: "ReactJS", isDone: false},
             {id: v1(), title: "Rest API", isDone: false},
             {id: v1(), title: "GraphQL", isDone: false}
         ],
-        [todolistID2]: [
+        [todolistId2]: [
             {id: v1(), title: "milk", isDone: true},
             {id: v1(), title: "meat", isDone: true},
             {id: v1(), title: "banana", isDone: false},
@@ -52,66 +52,60 @@ function App() {
     })
 
     function addTodolist(title: string) {
-        let newTodolistID = v1();
+        let newTodolistId = v1();
         let newTodolist: TodolistType = {
-            id: newTodolistID,
+            id: newTodolistId,
             title: title,
             filter: "all"
         };
         setTodoLists([...todoLists, newTodolist]);
         setTasks({
             ...tasks,
-            [newTodolistID]: []
+            [newTodolistId]: []
         })
     }
 
-    function removeTodoList(todoListID: string) {
-        let newTodoLists = todoLists.filter(tl => tl.id !== todoListID);
+    function removeTodoList(todoListId: string) {
+        let newTodoLists = todoLists.filter(tl => tl.id !== todoListId);
         setTodoLists(newTodoLists);
-        delete tasks[todoListID];
+        delete tasks[todoListId];
         setTasks({...tasks});
     }
-
-    function changeTodoListTitle(todoListID: string, newTitle: string) {
-        const todoList = todoLists.find(tl => tl.id === todoListID);
+    function changeTodoListTitle(todoListId: string, newTitle: string) {
+        const todoList = todoLists.find(tl => tl.id === todoListId);
         if (todoList) {
             todoList.title = newTitle;
             setTodoLists([...todoLists]);
         }
     }
-
-    function changeFilter(value: FilterValuesType, todolistID: string) {
-        let todolist = todoLists.find(tl => tl.id === todolistID);
+    function changeFilter(value: FilterValuesType, todolistId: string) {
+        let todolist = todoLists.find(tl => tl.id === todolistId);
         if (todolist) {
             todolist.filter = value;
             setTodoLists([...todoLists])
         }
     }
-
-    function removeTask(taskID: string, todoListID: string) {
-        let todoList = tasks[todoListID];
-        tasks[todoListID] = todoList.filter(t => t.id !== taskID);
+    function removeTask(taskId: string, todoListId: string) {
+        let todoList = tasks[todoListId];
+        tasks[todoListId] = todoList.filter(t => t.id !== taskId);
         setTasks({...tasks});
     }
-
-    function addTask(title: string, todoListID: string) {
+    function addTask(title: string, todoListId: string) {
         let newTask = {id: v1(), title: title, isDone: false};
-        let todoList = tasks[todoListID];
-        tasks[todoListID] = [newTask, ...todoList];
+        let todoList = tasks[todoListId];
+        tasks[todoListId] = [newTask, ...todoList];
         setTasks({...tasks});
     }
-
-    function changeStatus(id: string, isDone: boolean, todoListID: string) {
-        let todoList = tasks[todoListID];
+    function changeStatus(id: string, isDone: boolean, todoListId: string) {
+        let todoList = tasks[todoListId];
         let task = todoList.find(task => task.id === id);
         if (task) {
             task.isDone = isDone;
             setTasks({...tasks});
         }
     }
-
-    function changeTaskTitle(id: string, title: string, todoListID: string) {
-        let todoList = tasks[todoListID];
+    function changeTaskTitle(id: string, title: string, todoListId: string) {
+        let todoList = tasks[todoListId];
         let task = todoList.find(task => task.id === id);
         if (task) {
             task.title = title;
