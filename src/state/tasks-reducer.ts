@@ -52,28 +52,40 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
             return copyState;
         }
         case 'CHANGE-TASK-STATUS': {
-            return {
-                ...state,
-                [action.todoListId]: state[action.todoListId].map(task => {
-                    if (task.id !== action.taskId) {
-                        return task
-                    } else {
-                        return {...task, isDone: action.isDone}
-                    }
-                })
-            }
+            // return {
+            //     ...state,
+            //     [action.todoListId]: state[action.todoListId].map(task => {
+            //         if (task.id !== action.taskId) {
+            //             return task
+            //         } else {
+            //             return {...task, isDone: action.isDone}
+            //         }
+            //     })
+            // }
+            let todoListTasks = state[action.todoListId];
+            state[action.todoListId] = todoListTasks
+                .map(t => t.id === action.taskId
+                ? {...t, isDone: action.isDone}
+                : t);
+            return ({...state});
         }
         case 'CHANGE-TASK-TITLE': {
-            return {
-                ...state,
-                [action.todoListId]: state[action.todoListId].map(task => {
-                    if (task.id !== action.taskId) {
-                        return task
-                    } else {
-                        return {...task, title: action.title}
-                    }
-                })
-            }
+            // return {
+            //     ...state,
+            //     [action.todoListId]: state[action.todoListId].map(task => {
+            //         if (task.id !== action.taskId) {
+            //             return task
+            //         } else {
+            //             return {...task, title: action.title}
+            //         }
+            //     })
+            // }
+            let todoListTasks = state[action.todoListId];
+            state[action.todoListId] = todoListTasks
+                .map(t => t.id === action.taskId
+                    ? {...t, title: action.title}
+                    : t);
+            return ({...state});
         }
         case 'ADD-TODOLIST': {
             return {
